@@ -1,6 +1,9 @@
+// this module will define the structure of messages and pass messages between ws-client and dom
+import socket from './ws-client';
+
 class ChatApp {
   constructor() {
-    console.log('Hello ES6');
+    socket.init('ws://localhost:3001');
   }
 }
 
