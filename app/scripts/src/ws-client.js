@@ -6,8 +6,28 @@ function init(url) {
   console.log('connecting...');
 }
 // 3. forward incoming messages to their handlers
+function registerOpenHandler(handlerFunction) {
+  socket.onopen = () => {
+    console.log('open');
+    handlerFunction();
+  };
+}
+
+function registerMessageHandler(handlerFunction) {
+  socket.onmessage = (e) => {
+    console.log('message', e.data);
+    let data = JSON.parse(e.data);
+    handlerFunction(data);
+  }
+}
 // 4. send outgoing messages
+function sendMessage(payload) {
+  socket.send(JSON.stringify(payload));
+}
 
 export default {
-  init: init
+  init, // short cut for 'init:init'
+  registerOpenHandler,
+  registerMessageHandler,
+  sendMessage
 }
