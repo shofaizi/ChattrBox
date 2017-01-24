@@ -1,6 +1,5 @@
-var http = require('http');
-// access HTTP module
-var fs = require('fs');
+var http = require('http');// access HTTP module
+var fs = require('fs'); // import readFile module
 var extract = require('./extract');
 var wss = require('./websockets-server');
 
@@ -17,8 +16,7 @@ var server = http.createServer(function (req,res) {
       handleError(err,res);
       return;
     }else{
-      res.setHeader('Content-Type', 'text/html');
-      // setting up MIME type
+      res.setHeader('Content-Type', 'text/html');// setting up MIME type
       res.end(data);
     }
   });
