@@ -1,13 +1,23 @@
 // this module will define the structure of messages and pass messages between ws-client and dom
 import socket from './ws-client';
-import ChatForm from './dom';
+import {ChatForm} from './dom';
+
+const FORM_SELECTOR = '[data-chat="chat-form"]';
+const INPUT_SELECTOR = '[data-chat="message-input"]';
 
 class ChatApp {
   constructor() {
+    this.chatForm = new ChatForm(FORM_SELECTOR,INPUT_SELECTOR);
+
     socket.init('ws://localhost:3001');
     socket.registerOpenHandler(() => {
-      let message = new ChatMessage({ message: 'pow' });
-      socket.sendMessage(message.serialize());
+      this.chatForm.init((data) => {
+        let message = new ChatMessage(data);
+        socket.sendMessage(message.serialize());
+      // when user submits a message in the form the ChatForm instance will take
+      // that data and send it to ChatApp's callback, and the callback will then
+      // package it up as a ChatMessage and send it to the WebSocket server 
+      });
     });
     socket.registerMessageHandler((data) => {
       console.log(data);
