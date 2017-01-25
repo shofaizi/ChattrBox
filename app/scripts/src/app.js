@@ -1,5 +1,6 @@
 // this module will define the structure of messages and pass messages between ws-client and dom
 import socket from './ws-client';
+import ChatForm from './dom';
 
 class ChatApp {
   constructor() {

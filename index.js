@@ -1,5 +1,5 @@
 var http = require('http');// access HTTP module
-var fs = require('fs'); // import readFile module
+var fs = require('fs'); // import file system module
 var extract = require('./extract');
 var wss = require('./websockets-server');
 

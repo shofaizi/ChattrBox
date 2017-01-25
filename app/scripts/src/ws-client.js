@@ -17,12 +17,14 @@ function registerMessageHandler(handlerFunction) {
   socket.onmessage = (e) => {
     console.log('message', e.data);
     let data = JSON.parse(e.data);
+    // receive data and convert to object with JSON.parse
     handlerFunction(data);
   }
 }
 // 4. send outgoing messages
 function sendMessage(payload) {
   socket.send(JSON.stringify(payload));
+  // send data as a string to server
 }
 
 export default {
