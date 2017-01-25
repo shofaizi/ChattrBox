@@ -1,4 +1,10 @@
 import $ from 'jquery'; //no need to specify path since this is now a library
+import md5 from 'crypto-js/md5';
+
+function createGravatarUrl(username) {
+  let userhash = md5(username);
+  return `http://www.gravatar.com/avatar/${userhash.toString()}`;
+}
 
 export class ChatForm {
   constructor(formSel, inputSel) {
@@ -54,6 +60,12 @@ export class ChatList {
       text: m
     }));
 
+    let $img = $('<img>', {
+      src: createGravatarUrl(u),
+      title: u
+    });
+
+    $messageRow.append($img);
     $messageRow.append($message);
     $(this.listId).append($messageRow);
     $messageRow.get(0).scrollIntoView();
