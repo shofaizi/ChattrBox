@@ -19,7 +19,7 @@ function registerMessageHandler(handlerFunction) {
     let data = JSON.parse(e.data);
     // receive data and convert to object with JSON.parse
     handlerFunction(data);
-  }
+  };
 }
 // 4. send outgoing messages
 function sendMessage(payload) {

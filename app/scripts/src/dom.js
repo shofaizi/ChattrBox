@@ -1,5 +1,6 @@
 import $ from 'jquery'; //no need to specify path since this is now a library
 import md5 from 'crypto-js/md5';
+import moment from 'moment';
 
 function createGravatarUrl(username) {
   let userhash = md5(username);
@@ -26,8 +27,7 @@ export class ChatForm {
       this.$input.val('');
       // reset input field
     });
-
-  this.$form.find('button').on('click', () => this.$form.submit());
+    this.$form.find('button').on('click', () => this.$form.submit());
   // omit curly braces when returning the result of a singe statement👆
   }
 }
@@ -57,7 +57,7 @@ export class ChatList {
     $message.append($('<span>', {
       'class': 'timestamp',
       'data-time': t,
-      text: (new Date(t)).getTime()
+      text: moment(t).fromNow()
     }));
 
     $message.append($('<span>', {
@@ -72,7 +72,18 @@ export class ChatList {
 
     $messageRow.append($img);
     $messageRow.append($message);
-    $(this.listId).append($messageRow);
+    $(this.$list).append($messageRow);
     $messageRow.get(0).scrollIntoView();
+  }
+
+  init() {
+    this.timer = setInterval(() => {
+      $('[data-time]').each((idx, element) => {
+        let $element = $(element);
+        let timestamp = new Date().setTime($element.attr('data-time'));
+        let ago = moment(timestamp).fromNow();
+        $element.html(ago);
+      });
+    }, 1000);
   }
 };

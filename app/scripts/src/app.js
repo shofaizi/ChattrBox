@@ -21,13 +21,14 @@ class ChatApp {
 
     socket.init('ws://localhost:3001');
     socket.registerOpenHandler(() => {
-      this.chatForm.init((data) => {
-        let message = new ChatMessage(data);
+      this.chatForm.init((text) => {
+        let message = new ChatMessage({ message: text });
         socket.sendMessage(message.serialize());
       // when user submits a message in the form the ChatForm instance will take
       // that data and send it to ChatApp's callback, and the callback will then
       // package it up as a ChatMessage and send it to the WebSocket server
       });
+      this.chatList.init();
     });
     socket.registerMessageHandler((data) => {
       console.log(data);
@@ -42,21 +43,20 @@ class ChatMessage {
   constructor({
     message: m,
     user: u = username,
-    timestamp: t=(new Date()).getTime()
+    timestamp: t = (new Date()).getTime()
   }) {
     this.message = m;
     this.user = u;
     this.timestamp = t;
   }
   serialize() { //method to represent data in ChatMessage's properties as a plain JS object
-    return{
+    return {
       user: this.user,
       message: this.message,
       timestamp: this.timestamp
     };
   }
 }
-new ChatApp();
 // in terminal run babel app/scripts/src/app.js -o app/scripts/dist/main.js
 // to compile app.js into main.js
 
